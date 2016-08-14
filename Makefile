@@ -1,16 +1,14 @@
 CFLAGS += -Wall -pedantic -std=gnu99 -O3
+CFLAGS += -DNDEBUG
 LFLAGS = -lpthread
 
-ifneq ($(CROSS_COMPILE),)
-  CC = gcc
-  CC := $(CROSS_COMPILE)$(CC)
-endif
+CC ?= gcc
 
 ifneq ($(STATIC),)
 	CFLAGS += -static
 endif
 
-.PHONY: picomdnsd all
+.PHONY: all clean
 
 all: picomdnsd
 
@@ -20,4 +18,3 @@ clean:
 
 picomdnsd: picomdnsd.c mdns.c mdnsd.c
 	$(CC) -o $@ $(CFLAGS) $^ $(LFLAGS)
-
